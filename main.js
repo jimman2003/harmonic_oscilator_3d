@@ -9,26 +9,31 @@ const controls = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 const geometry = new THREE.BoxGeometry(1, 1, 1);
+const sphere = new THREE.SphereGeometry(0.1);
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const cube = new THREE.Mesh(geometry, material);
+const sphereMesh = new THREE.Mesh(sphere, material);
 scene.add(cube);
+scene.add(sphereMesh);
+camera.position.z = 4
+let ocsillation_width = 1
 
-camera.position.z = 5;
-function physics(force, mass, dt) {
-    let acceleration = force / mass
-    let velocity = acceleration * dt
-    let displacement = velocity * dt
+function physics(k, mass, time) {
+    let angular_freq = (k / mass) ** 0.5
+    let displacement = ocsillation_width * Math.cos((angular_freq * time) * (Math.PI / 180))
     return displacement
 }
-let lastTime = 0
+
 function animate(currentTime) {
-    requestAnimationFrame(animate);
     controls.update();
-    let dt = currentTime - lastTime / 1000
-    let displacement = physics(0.1, 10000, dt)
+    let displacement = physics(1, 100, currentTime)
     console.log(displacement)
     cube.position.x = displacement;
     renderer.render(scene, camera);
-    lastTime = currentTime
+    requestAnimationFrame(animate)
 }
-animate()
+
+function firstFrame(timeStamp) {
+    animate(timeStamp);
+}
+requestAnimationFrame(firstFrame);
