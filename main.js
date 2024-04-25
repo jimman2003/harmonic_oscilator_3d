@@ -25,8 +25,8 @@ scene.add(sphereMesh);
 scene.add(ropeMesh);
 
 camera.position.z = 4
-ropeMesh.position.x = -ocsillation_width
 let ocsillation_width = 1
+ropeMesh.position.x = -ocsillation_width
 
 function physics(k, mass, time) {
     let angular_freq = (k / mass) ** 0.5
