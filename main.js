@@ -8,7 +8,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 const controls = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 const ropeGeometry = new THREE.BoxGeometry(1, 0.1, 0.1);
 const sphereGeometry = new THREE.SphereGeometry(0.1);
@@ -26,7 +25,7 @@ scene.add(ropeMesh);
 
 camera.position.z = 4
 let ocsillation_width = 1
-ropeMesh.position.x = -ocsillation_width
+ropeMesh.position.x = -ocsillation_width*2
 
 function physics(k, mass, time) {
     let angular_freq = (k / mass) ** 0.5
@@ -38,7 +37,7 @@ function animate(currentTime) {
     controls.update();
     let displacement = physics(1, 100, currentTime)
     cubeMesh.position.x = displacement;
-    ropeMesh.scale.x = ocsillation_width + displacement
+    ropeMesh.scale.x = ocsillation_width*2 + displacement
     renderer.render(scene, camera);
     requestAnimationFrame(animate)
 }
