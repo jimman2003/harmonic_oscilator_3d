@@ -9,7 +9,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-const ropeGeometry = new THREE.BoxGeometry(1, 0.1, 0.1);
+const ropeGeometry = new THREE.BoxGeometry(0.1, 1, 0.1);
 const sphereGeometry = new THREE.SphereGeometry(0.1);
 
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -17,7 +17,7 @@ const cubeMesh = new THREE.Mesh(cubeGeometry, material);
 const sphereMesh = new THREE.Mesh(sphereGeometry, material);
 const ropeMesh = new THREE.Mesh(ropeGeometry, material);
 
-ropeMesh.geometry.translate(0.5, 0, 0);
+ropeMesh.geometry.translate(0, 0.5, 0);
 
 scene.add(cubeMesh);
 scene.add(sphereMesh);
@@ -25,7 +25,7 @@ scene.add(ropeMesh);
 
 camera.position.z = 4
 let ocsillation_width = 1
-ropeMesh.position.x = -ocsillation_width*2
+ropeMesh.position.y = ocsillation_width*2
 
 function physics(k, mass, time) {
     let angular_freq = (k / mass) ** 0.5
@@ -36,8 +36,8 @@ function physics(k, mass, time) {
 function animate(currentTime) {
     controls.update();
     let displacement = physics(1, 100, currentTime)
-    cubeMesh.position.x = displacement;
-    ropeMesh.scale.x = ocsillation_width*2 + displacement
+    cubeMesh.position.y = displacement;
+    ropeMesh.scale.y = -(ocsillation_width*2 - displacement)
     renderer.render(scene, camera);
     requestAnimationFrame(animate)
 }
