@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 class HelixCurve extends THREE.Curve {
-  constructor(radius, height, turns,scale=1) {
+  constructor(radius, height, turns) {
       super();
       this.radius = radius;
       this.height = height;
